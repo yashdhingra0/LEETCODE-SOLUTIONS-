@@ -1,0 +1,21 @@
+class Solution {
+public:
+    void dfs(Node* node,Node* temp,unordered_map<Node*,Node*> &visited){
+        for(Node *i:node->neighbors){
+            if(visited.find(i)==visited.end()){     //check visited in neighbors
+                Node* copy=new Node(i->val,{});     //create copy nodes of neighbors
+                visited[i]=copy;                    //make visit that node
+                dfs(i,copy,visited);
+            }
+            temp->neighbors.push_back(visited[i]);  //add neighbors from original node
+        }                                           //to copied node i.e neighbors stored
+    }                                               //in visited
+    Node* cloneGraph(Node* node) {
+        if(!node) return NULL;
+        unordered_map<Node*,Node*> visited;     //create visited map
+        Node* temp=new Node(node->val,{});      //create copy node
+        visited[node]=temp;
+        dfs(node,temp,visited);
+        return temp;
+    }
+};
