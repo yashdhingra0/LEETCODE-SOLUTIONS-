@@ -1,0 +1,33 @@
+A wiggle sequence is a sequence where the differences between successive numbers strictly alternate between 
+positive and negative. The first difference (if one exists) may be either positive or negative. A sequence with 
+fewer than two elements is trivially a wiggle sequence.
+
+
+int wiggleMaxLength(vector<int>& nums)
+{
+int n=nums.size();
+if(n==0) //boundary condition
+return 0;
+bool pos=true; //initialize
+bool neg=true;
+vector<int>dp(n);
+dp[0]=1; //first element is itself a subsequence
+for(int i=1;i<n;i++)
+{
+if((nums[i]-nums[i-1])>0&&(neg==true)) //if diff is positive and last diff was negative so we'll update the value
+{
+pos=true; //now make pos as true as the current diff is positive
+neg=false; //turn negative into false
+dp[i]=dp[i-1]+1; //count the current element into subsequence
+}
+else if((nums[i]-nums[i-1])<0&&(pos==true)) //opposite of above
+{
+pos=false;
+neg=true;
+dp[i]=dp[i-1]+1;
+}
+else
+dp[i]=dp[i-1]; //if the above conditions doesn't match that means the current element is breaking the pattern and hence shouldn't be included in the subsequence count
+}
+return dp[n-1];
+}};
