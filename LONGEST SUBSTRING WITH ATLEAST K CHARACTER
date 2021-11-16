@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int longestSubstring(string s, int k) {
+        int n=s.length();
+        if(k>n || n==0)
+            return 0;
+        if(k<=1)
+            return n;
+        unordered_map<char,int>map;
+        for(char c:s)map[c]+=1;
+        
+        int l=0;
+        while(l<n && map[s[l]]>=k)
+            l++;
+        if(l>=n-1)//AGR UPR WALI CONDITIONSE YAHAN TK AAGYEE TO L HI HOGI NHI TO NICHE 
+            return l;
+        int ls1=longestSubstring(s.substr(0,l),k);O SE L KA PART M RECURSIVE APPROACH LGAYI
+        while(l<n && map[s[l]]<k)l++;//YE OPTIMIZATION KE LIYE KI JIN CHAR KI VALUE K SE KM H UNHE TO COUNT HI NHI KRNA 
+        int ls2=longestSubstring(s.substr(l),k);
+        int res=max(ls1,ls2);
+        return res;
+        
+        
+    }
+};
